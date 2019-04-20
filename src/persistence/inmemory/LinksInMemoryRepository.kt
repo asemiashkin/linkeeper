@@ -12,20 +12,20 @@ class LinksInMemoryRepository: LinksRepository {
         return block()
     }
 
-    override fun create(link: Link): Long = linksSynchronized {
-        link.id = provideId()
-        linksList.add(link)
-        link.id
+    override fun create(newLink: Link): Long = linksSynchronized {
+        newLink.id = provideId()
+        linksList.add(newLink)
+        newLink.id
     }
 
-    override fun update(link: Link): Boolean = linksSynchronized {
-        val existing: Link? = linksList.first { it.id == link.id }
+    override fun update(updLink: Link): Boolean = linksSynchronized {
+        val existing: Link? = linksList.first { it.id == updLink.id }
         if (existing == null) {
             false
         } else {
-            existing.link = link.link
-            existing.title = link.title
-            existing.userId = link.userId
+            existing.link = updLink.link
+            existing.title = updLink.title
+            existing.userId = updLink.userId
             true
         }
     }
