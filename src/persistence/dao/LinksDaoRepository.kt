@@ -7,7 +7,7 @@ import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.net.URI
 
-class LinksDaoRepository: LinksRepository {
+class LinksDaoRepository : LinksRepository {
 
     override fun create(newLink: Link): Long = transaction {
         (Links.insert {
@@ -18,7 +18,7 @@ class LinksDaoRepository: LinksRepository {
     }
 
     override fun update(updLink: Link): Boolean = transaction {
-        Links.update({Links.id eq updLink.id}) {
+        Links.update({ Links.id eq updLink.id }) {
             it[title] = updLink.title
             it[link] = updLink.link.toString()
             it[userId] = updLink.userId
@@ -30,7 +30,7 @@ class LinksDaoRepository: LinksRepository {
     }
 
     override fun remove(linkId: Long): Boolean = transaction {
-         Links.deleteWhere { Links.id eq linkId } > 0
+        Links.deleteWhere { Links.id eq linkId } > 0
     }
 
     override fun fetch(linkId: Long): Link = transaction {
@@ -38,15 +38,15 @@ class LinksDaoRepository: LinksRepository {
     }
 
     override fun fetchAll(): List<Link> = transaction {
-        Links.selectAll().toList().map {it.toLink()}
+        Links.selectAll().toList().map { it.toLink() }
     }
 
-    private fun ResultRow.toLink() : Link {
-        return Link(id = this[Links.id],
-            title = this[Links.title],
-            link = URI.create(this[Links.link]),
-            userId = this[Links.userId])
-    }
-
+    private fun ResultRow.toLink(): Link = Link(
+        id = this[Links.id],
+        title = this[Links.title],
+        link = URI.create(this[Links.link]),
+        userId = this[Links.userId]
+    )
+    
 
 }
