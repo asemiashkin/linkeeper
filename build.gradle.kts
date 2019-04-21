@@ -1,6 +1,3 @@
-import org.jetbrains.kotlin.gradle.dsl.Coroutines
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 val logback_version: String by project
 val ktor_version: String by project
 val kotlin_version: String by project
@@ -10,6 +7,7 @@ val h2_version:String = "1.4.197"
 plugins {
     application
     kotlin("jvm") version "1.3.30"
+    id("com.github.johnrengelman.shadow") version "5.0.0"
 }
 
 group = "linkeeper"
@@ -42,3 +40,13 @@ kotlin.sourceSets["test"].kotlin.srcDirs("test")
 
 sourceSets["main"].resources.srcDirs("resources")
 sourceSets["test"].resources.srcDirs("testresources")
+
+tasks.withType<Jar> {
+    manifest {
+        attributes(
+            mapOf(
+                "Main-Class" to application.mainClassName
+            )
+        )
+    }
+}
