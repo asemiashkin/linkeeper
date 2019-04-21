@@ -1,7 +1,7 @@
 # linkeeper
 #### Ktor-driven (https://ktor.io) Simple REST service for the links storage.
 
-_Shadow plugin requires at gradle 5.0 version. You can use gradle wrapper instead._
+_Shadow plugin requires at least gradle 5.0 version. You can use gradle wrapper instead._
 
 To start the app, use
 ```
