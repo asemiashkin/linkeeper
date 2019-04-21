@@ -1,12 +1,14 @@
 package com.asemiashkin
 
-import com.asemiashkin.persistence.inmemory.LinksInMemoryRepository
+import com.asemiashkin.persistence.dao.LinksDaoRepository
 import com.asemiashkin.routings.linksRest
 import com.asemiashkin.services.LinksService
-import io.ktor.application.*
+import io.ktor.application.Application
+import io.ktor.application.install
 import io.ktor.features.CORS
 import io.ktor.features.ContentNegotiation
 import io.ktor.features.DefaultHeaders
+import io.ktor.features.StatusPages
 import io.ktor.gson.gson
 import io.ktor.routing.Routing
 import org.jetbrains.exposed.sql.Database
@@ -20,7 +22,7 @@ fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 @Suppress("unused") // Referenced in application.conf
 @kotlin.jvm.JvmOverloads
 fun Application.module(testing: Boolean = false) {
-    Database.connect("jdbc:h2:mem:test", driver = "org.h2.Driver")
+    Database.connect("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1", driver = "org.h2.Driver")
     install(DefaultHeaders)
     install(CORS) {
         maxAge = Duration.ofDays(1)
@@ -33,7 +35,11 @@ fun Application.module(testing: Boolean = false) {
     }
 
     install(Routing) {
-        linksRest(LinksService(LinksInMemoryRepository()))
+        linksRest(LinksService(LinksDaoRepository()))
+    }
+
+    install(StatusPages) {
+        handleExceptions()
     }
 
     transaction {
