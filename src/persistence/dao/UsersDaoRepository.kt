@@ -1,11 +1,13 @@
 package com.asemiashkin.persistence.dao
 
+import com.asemiashkin.Role
 import com.asemiashkin.User
 import com.asemiashkin.Users
 import com.asemiashkin.persistence.UsersRepository
-import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
-import org.jetbrains.exposed.sql.update
+import java.net.URI
 
 class UsersDaoRepository : UsersRepository {
     override fun create(toAdd: User): Long = transaction {
@@ -25,15 +27,22 @@ class UsersDaoRepository : UsersRepository {
     }
 
     override fun remove(id: Long): Boolean = transaction {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Users.deleteWhere { Users.id eq id } > 0
     }
 
     override fun fetch(id: Long): User = transaction {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Users.select { Users.id eq id }.first().toUser()
     }
 
     override fun fetchAll(): List<User> = transaction {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Users.selectAll().toList().map { it.toUser() }
     }
+
+    private fun ResultRow.toUser(): User = User(
+        id = this[Users.id],
+        nickname = this[Users.nickname],
+        email = this[Users.email],
+        role = Role.valueOf(this[Users.role])
+    )
 
 }
