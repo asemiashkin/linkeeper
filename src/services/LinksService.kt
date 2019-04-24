@@ -13,10 +13,6 @@ class LinksService(private val linksRepository: LinksRepository) {
         return linksRepository.update(link)
     }
 
-    fun remove(link: Link) : Boolean {
-        return linksRepository.remove(link)
-    }
-
     fun remove(linkId: Long) : Boolean {
         return linksRepository.remove(linkId)
     }

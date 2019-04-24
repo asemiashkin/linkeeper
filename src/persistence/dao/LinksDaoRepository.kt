@@ -9,32 +9,28 @@ import java.net.URI
 
 class LinksDaoRepository : LinksRepository {
 
-    override fun create(newLink: Link): Long = transaction {
+    override fun create(toAdd: Link): Long = transaction {
         (Links.insert {
-            it[title] = newLink.title
-            it[link] = newLink.link.toString()
-            it[userId] = newLink.userId
+            it[title] = toAdd.title
+            it[link] = toAdd.link.toString()
+            it[userId] = toAdd.userId
         } get Links.id)!!
     }
 
-    override fun update(updLink: Link): Boolean = transaction {
-        Links.update({ Links.id eq updLink.id }) {
-            it[title] = updLink.title
-            it[link] = updLink.link.toString()
-            it[userId] = updLink.userId
+    override fun update(toUpdate: Link): Boolean = transaction {
+        Links.update({ Links.id eq toUpdate.id }) {
+            it[title] = toUpdate.title
+            it[link] = toUpdate.link.toString()
+            it[userId] = toUpdate.userId
         } > 0
     }
 
-    override fun remove(link: Link): Boolean {
-        return remove(link.id)
+    override fun remove(id: Long): Boolean = transaction {
+        Links.deleteWhere { Links.id eq id } > 0
     }
 
-    override fun remove(linkId: Long): Boolean = transaction {
-        Links.deleteWhere { Links.id eq linkId } > 0
-    }
-
-    override fun fetch(linkId: Long): Link = transaction {
-        Links.select { Links.id eq linkId }.first().toLink()
+    override fun fetch(id: Long): Link = transaction {
+        Links.select { Links.id eq id }.first().toLink()
     }
 
     override fun fetchAll(): List<Link> = transaction {
