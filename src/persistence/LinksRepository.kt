@@ -2,12 +2,11 @@ package com.asemiashkin.persistence
 
 import com.asemiashkin.Link
 
-interface LinksRepository {
+interface LinksRepository : CRUDRepository<Long, Link> {
 
-    fun create(newLink: Link) : Long
-    fun update(updLink: Link) : Boolean
-    fun remove(link: Link) : Boolean
-    fun remove(linkId: Long) : Boolean
-    fun fetch(linkId: Long) : Link
-    fun fetchAll() : List<Link>
+    override fun create(toAdd: Link) : Long
+    override fun update(toUpdate: Link) : Boolean
+    override fun remove(id: Long) : Boolean
+    override fun fetch(id: Long) : Link
+    override fun fetchAll() : List<Link>
 }
