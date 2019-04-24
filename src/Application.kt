@@ -1,8 +1,11 @@
 package com.asemiashkin
 
 import com.asemiashkin.persistence.dao.LinksDaoRepository
+import com.asemiashkin.persistence.dao.UsersDaoRepository
 import com.asemiashkin.routings.linksRest
+import com.asemiashkin.routings.usersRest
 import com.asemiashkin.services.LinksService
+import com.asemiashkin.services.UserService
 import io.ktor.application.Application
 import io.ktor.application.install
 import io.ktor.features.CORS
@@ -35,6 +38,7 @@ fun Application.module() {
 
     install(Routing) {
         linksRest(LinksService(LinksDaoRepository()))
+        usersRest(UserService(UsersDaoRepository()))
     }
 
     install(StatusPages) {

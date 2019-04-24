@@ -19,6 +19,9 @@ data class User(
     var role: Role
 )
 
+data class CreateUserResponse(val id: Long)
+data class UDUserResponse(val successful: Boolean)
+
 enum class Role {
     ADMIN, USER
 }
