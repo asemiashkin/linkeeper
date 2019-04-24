@@ -24,7 +24,7 @@ fun Routing.linksRest(linksService: LinksService) = route("/links") {
         } catch (e: Exception) {
             0
         }
-        var link: Link? = linksService.fetch(id!!)
+        val link: Link? = linksService.fetch(id!!)
         if (link == null) call.respond(HttpStatusCode.NotFound)
         call.respond(link!!)
     }
