@@ -3,6 +3,7 @@ val ktor_version: String by project
 val kotlin_version: String by project
 val exposed_version: String = "0.10.4"
 val h2_version:String = "1.4.197"
+val spek_version = "2.0.2"
 
 plugins {
     application
@@ -23,6 +24,9 @@ repositories {
     maven {
         url = uri("https://dl.bintray.com/kotlin/exposed")
     }
+    maven {
+        url = uri("https://dl.bintray.com/spekframework/spek-dev/")
+    }
 }
 
 dependencies {
@@ -33,6 +37,8 @@ dependencies {
     compile("io.ktor:ktor-gson:$ktor_version")
     compile("com.h2database:h2:$h2_version")
     testCompile("io.ktor:ktor-server-tests:$ktor_version")
+    testCompile("org.spekframework.spek2:spek-dsl-jvm:$spek_version")
+    testCompile("org.spekframework.spek2:spek-runner-junit5:$spek_version")
 }
 
 kotlin.sourceSets["main"].kotlin.srcDirs("src")
@@ -48,5 +54,11 @@ tasks.withType<Jar> {
                 "Main-Class" to application.mainClassName
             )
         )
+    }
+}
+
+tasks.test {
+    useJUnitPlatform {
+        includeEngines("spek2")
     }
 }
