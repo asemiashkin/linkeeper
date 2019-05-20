@@ -24,9 +24,6 @@ repositories {
     maven {
         url = uri("https://dl.bintray.com/kotlin/exposed")
     }
-    maven {
-        url = uri("https://dl.bintray.com/spekframework/spek-dev/")
-    }
 }
 
 dependencies {
@@ -36,9 +33,9 @@ dependencies {
     compile("ch.qos.logback:logback-classic:$logback_version")
     compile("io.ktor:ktor-gson:$ktor_version")
     compile("com.h2database:h2:$h2_version")
+    testCompile("org.mockito:mockito-core:2.27.0")
+    testCompile("com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0")
     testCompile("io.ktor:ktor-server-tests:$ktor_version")
-    testCompile("org.spekframework.spek2:spek-dsl-jvm:$spek_version")
-    testCompile("org.spekframework.spek2:spek-runner-junit5:$spek_version")
 }
 
 kotlin.sourceSets["main"].kotlin.srcDirs("src")
@@ -54,11 +51,5 @@ tasks.withType<Jar> {
                 "Main-Class" to application.mainClassName
             )
         )
-    }
-}
-
-tasks.test {
-    useJUnitPlatform {
-        includeEngines("spek2")
     }
 }

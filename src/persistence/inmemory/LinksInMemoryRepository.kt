@@ -30,9 +30,6 @@ class LinksInMemoryRepository: LinksRepository {
         }
     }
 
-    override fun remove(link: Link): Boolean = linksSynchronized {
-        remove(link.id)
-    }
 
     override fun remove(linkId: Long): Boolean = linksSynchronized {
         linksList.removeIf { it.id == linkId }
