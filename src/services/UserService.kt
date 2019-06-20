@@ -5,20 +5,20 @@ import com.asemiashkin.persistence.UsersRepository
 
 class UserService(private val usersRepository: UsersRepository) {
 
-    fun create(link: User): Long {
-        return usersRepository.create(link)
+    fun create(user: User): Long {
+        return usersRepository.create(user)
     }
 
-    fun update(link: User): Boolean {
-        return usersRepository.update(link)
+    fun update(user: User): Boolean {
+        return usersRepository.update(user)
     }
 
-    fun remove(linkId: Long): Boolean {
-        return usersRepository.remove(linkId)
+    fun remove(userId: Long): Boolean {
+        return usersRepository.remove(userId)
     }
 
-    fun fetch(linkId: Long): User {
-        return usersRepository.fetch(linkId)
+    fun fetch(userId: Long): User {
+        return usersRepository.fetch(userId)
     }
 
     fun fetchAll(): List<User> {

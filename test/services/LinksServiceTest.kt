@@ -14,6 +14,8 @@ import kotlin.random.Random
 
 class LinksServiceTest {
 
+    private val link = Link(0, "test", URI.create("/test"), 0)
+
     @Test
     fun testCreate() {
         val linksRepository = mock<LinksRepository> {
@@ -22,7 +24,7 @@ class LinksServiceTest {
 
         val linksService = LinksService(linksRepository)
 
-        Assert.assertNotNull(linksService.create(Link(0, "test", URI.create("/test"), 0)))
+        Assert.assertNotNull(linksService.create(link))
     }
 
     @Test
@@ -33,7 +35,7 @@ class LinksServiceTest {
 
         val linksService = LinksService(linksRepository)
 
-        Assert.assertTrue(linksService.update(Link(0, "test", URI.create("/test"), 0)))
+        Assert.assertTrue(linksService.update(link))
     }
 
     @Test
@@ -49,20 +51,20 @@ class LinksServiceTest {
 
     @Test
     fun testFetch() {
-        var link = Link(0, "test", URI.create("/test"), 0)
+        var link1 = link
         val linksRepository = mock<LinksRepository> {
-            on { fetch(any()) } doReturn link
+            on { fetch(any()) } doReturn link1
         }
 
         val linksService = LinksService(linksRepository)
 
-        Assert.assertEquals(linksService.fetch(0),link)
+        Assert.assertEquals(linksService.fetch(0), link1)
     }
 
     @Test
     fun testFetchAll() {
-        var link = Link(0, "test", URI.create("/test"), 0)
-        val singletonList = Collections.singletonList(link)
+        var link1 = link
+        val singletonList = Collections.singletonList(link1)
 
         val linksRepository = mock<LinksRepository> {
             on { fetchAll() } doReturn singletonList
